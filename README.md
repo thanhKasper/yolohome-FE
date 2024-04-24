@@ -2,7 +2,7 @@
 
 YoloHome is a web application that will manipulate any hardwares that are connected to the YoloHome system. It can control any devices as well as display the information of the sensor. It also create a graph for the owner of the system to analyse their usual habit such as whether they drink enough water or not.
 
-This is the frontend of YoloHome system, in order to find for the backend you can go to the link
+This is the frontend of YoloHome system, in order to find for the backend you can go to the link:
 
 # Team member
 |Name               |Role  | 
