@@ -1,6 +1,7 @@
 import React from "react";
 import { fe_url } from "@/config";
 import { NavItemType } from "../../TypeList";
+import { useRouter } from "next/navigation";
 
 const NavItem = ({
   navItem,
@@ -11,11 +12,13 @@ const NavItem = ({
   currentActive: string;
   setActive: React.Dispatch<React.SetStateAction<string>>;
 }) => {
+  const router = useRouter()
   return (
     <div
       className="flex items-center h-12 mt-4 relative"
       onClick={e => {
         setActive(old => navItem.navId);
+        router.push(navItem.itemLink)
       }}
     >
       <div

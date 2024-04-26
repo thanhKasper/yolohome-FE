@@ -2,12 +2,14 @@
 import React, { useState } from 'react'
 import { Switch, Input } from "@chakra-ui/react";
 
-const Card = ({kind}: {kind: string}) => {
+type DeviceKind = "devices" | "sensors"
+
+const Card = ({kind}: {kind: DeviceKind}) => {
   const [state, setState] = useState(0)
-  const [isChange, setIsChange] = useState(true)
+  const [isChange, setIsChange] = useState(false)
   const [changeName, setChangeName] = useState("Device Name")
   return (
-    <div className="bg-white w-[320px] h-[200px] p-4 rounded-2xl flex flex-col">
+    <div className="bg-white w-full p-4 rounded-2xl flex flex-col border-2 border-gray-200">
       <div className="flex items-center gap-4 w-full h-6">
         <img src="/card/fan.png" alt="" />
         {isChange ? (
@@ -34,7 +36,7 @@ const Card = ({kind}: {kind: string}) => {
             <p>State: on</p>
             <p>Connected Sensor: none</p>
           </div>
-          <div className="mt-auto">
+          <div className="mt-10">
             <Switch
               size="lg"
               isChecked={state == 0 ? false : true}
