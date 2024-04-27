@@ -1,16 +1,44 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SelectExp from "./SelectExp";
+import SelectTimeOrSensor from "./SelectTimeOrSensor";
+import CondInput from "./SensorInput";
+import SensorInput from "./SensorInput";
+import DateInput from "./DateInput";
 
-const DisplayBinary = ({ operator, lhs, rhs }: { operator: string, lhs: React.ReactNode, rhs: React.ReactNode }) => {
+const DisplayBinary = ({
+  operator,
+  lhs,
+  rhs,
+}: {
+  operator: string;
+  lhs: React.ReactNode;
+  rhs: React.ReactNode;
+}) => {
+  // Sensor | Time
+  const [cmpType, setCmpType] = useState<string>("None");
+  console.log("Inside DisplayBinary with operator ", operator, cmpType);
   const binJsx = (
     <div className="flex items-center flex-wrap gap-1">
       <span className="font-semibold text-2xl select-none">(</span>
-      {lhs}{" "}
-      <span className="font-semibold select-none">{operator}</span>{" "}
-      {rhs}
-      <span className="w-6 h-6 rounded-full flex items-center justify-center bg-slate-300 active:bg-slate-200" onClick={()=>{handleClose()}}>
+      {["and", "or"].indexOf(operator) == -1 ? (
+        <SelectTimeOrSensor setCmpType={setCmpType} />
+      ) : (
+        lhs
+      )}{" "}
+      <span className="font-semibold select-none">{operator}</span>
+      {["and", "or"].indexOf(operator) == -1 ? (
+        cmpType == "Sensor" ? <SensorInput/> : cmpType == "Time" ? <DateInput/> : <p>Waiting...</p>
+      ) : (
+        rhs
+      )}
+      <span
+        className="w-6 h-6 rounded-full flex items-center justify-center bg-slate-300 active:bg-slate-200"
+        onClick={() => {
+          handleClose();
+        }}
+      >
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="0.5rem"
@@ -30,9 +58,13 @@ const DisplayBinary = ({ operator, lhs, rhs }: { operator: string, lhs: React.Re
   );
   const [display, setDisplay] = useState(binJsx);
 
+  useEffect(() => {
+    setDisplay(binJsx)
+  }, [cmpType])
+
   const handleClose = () => {
-    setDisplay(<SelectExp/>)
-  }
+    setDisplay(<SelectExp />);
+  };
 
   return display;
 };

@@ -4,8 +4,6 @@ import React, { useState } from "react";
 import { Select } from "@chakra-ui/react";
 import DisplayNot from "./DisplayNot";
 import DisplayBinary from "./DisplayBinary";
-import SelectSensor from "./SelectSensor";
-import CondInput from "./CondInput";
 
 const SelectExp = () => {
   const selectExpr = (
@@ -53,56 +51,32 @@ const SelectExp = () => {
         break;
       case "gt":
         setDisplayExp(
-          <DisplayBinary
-            operator="&gt;"
-            lhs={<SelectSensor />}
-            rhs={<CondInput/>}
-          />
+          <DisplayBinary operator="&gt;" lhs={<p>None</p>} rhs={<p>None</p>} />
         );
         break;
       case "gte":
         setDisplayExp(
-          <DisplayBinary
-            operator="&ge;"
-            lhs={<SelectSensor />}
-            rhs={<CondInput />}
-          />
+          <DisplayBinary operator="&ge;" lhs={<p>None</p>} rhs={<p>None</p>} />
         );
         break;
       case "lt":
         setDisplayExp(
-          <DisplayBinary
-            operator="&lt;"
-            lhs={<SelectSensor />}
-            rhs={<CondInput />}
-          />
+          <DisplayBinary operator="&lt;" lhs={<p>None</p>} rhs={<p>None</p>} />
         );
         break;
       case "lte":
         setDisplayExp(
-          <DisplayBinary
-            operator="&le;"
-            lhs={<SelectSensor />}
-            rhs={<CondInput />}
-          />
+          <DisplayBinary operator="&le;" lhs={<p>None</p>} rhs={<p>None</p>} />
         );
         break;
       case "ne":
         setDisplayExp(
-          <DisplayBinary
-            operator="&ne;"
-            lhs={<SelectSensor />}
-            rhs={<CondInput />}
-          />
+          <DisplayBinary operator="&ne;" lhs={<p>None</p>} rhs={<p>None</p>} />
         );
         break;
       case "eq":
         setDisplayExp(
-          <DisplayBinary
-            operator="&#61;"
-            lhs={<SelectSensor />}
-            rhs={<CondInput />}
-          />
+          <DisplayBinary operator="&#61;" lhs={<p>None</p>} rhs={<p>None</p>} />
         );
         break;
       default:

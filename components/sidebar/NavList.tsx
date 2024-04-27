@@ -9,7 +9,6 @@ import { CurrentNavItemContext, SetNavItemContext, navList } from "@/context";
 const NavList = () => {
   const currNav = useContext(CurrentNavItemContext);
   const setCurrNav = useContext(SetNavItemContext);
-  console.log(currNav);
   return (
     <ol className="mt-20">
       {navList.map((ele: NavItemType) => (
