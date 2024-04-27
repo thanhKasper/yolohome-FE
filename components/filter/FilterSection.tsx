@@ -22,7 +22,7 @@ const FilterSection = ({
   return (
     <>
       {children}
-      <div className="mt-4 flex flex-wrap gap-4">
+      <div className="mt-2 flex flex-wrap gap-4">
         {filterList.devices &&
           filterList.devices.map((e, idx) => (
             <Tag

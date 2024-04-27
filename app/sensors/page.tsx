@@ -3,6 +3,7 @@ import { FilterType } from "@/Type";
 import Room from "@/components/Room";
 import FilterSection from "@/components/filter/FilterSection";
 import MySelect from "@/components/filter/MySelectMult";
+import ResetButton from "@/components/filter/ResetButton";
 import SearchBar from "@/components/filter/SearchBar";
 import React, { useState } from "react";
 
@@ -33,13 +34,7 @@ const SensorsPage = () => {
             }}
             placeholder="Search Device Name"
           />
-          <button
-            className="flex items-center gap-1 hover:rounded-full hover:bg-slate-200 p-2 text-sm"
-            onClick={() => setFilterList({})}
-          >
-            <img src="/filter/reset.png" alt="reset" className="w-4" />
-            Reset
-          </button>
+          <ResetButton setFilterList={setFilterList}/>
           <button className="bg-my-primary active:bg-blue-600 text-white py-1 px-2 rounded-md text-sm ml-auto">
             Add Room
           </button>

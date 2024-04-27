@@ -2,11 +2,10 @@
 
 import React, { useState } from "react";
 import { Select } from "@chakra-ui/react";
-import DisplayAnd from "./DisplayAnd";
-import DisplayOr from "./DisplayOr";
 import DisplayNot from "./DisplayNot";
 import DisplayBinary from "./DisplayBinary";
 import SelectSensor from "./SelectSensor";
+import CondInput from "./CondInput";
 
 const SelectExp = () => {
   const selectExpr = (
@@ -25,6 +24,7 @@ const SelectExp = () => {
       <option value="lt">&lt;</option>
       <option value="le">&le;</option>
       <option value="ne">&ne;</option>
+      <option value="eq">&#61;</option>
     </Select>
   );
   const [displayExp, setDisplayExp] = useState(selectExpr);
@@ -56,7 +56,7 @@ const SelectExp = () => {
           <DisplayBinary
             operator="&gt;"
             lhs={<SelectSensor />}
-            rhs={<p>This is greater than</p>}
+            rhs={<CondInput/>}
           />
         );
         break;
@@ -65,7 +65,7 @@ const SelectExp = () => {
           <DisplayBinary
             operator="&ge;"
             lhs={<SelectSensor />}
-            rhs={<p>This is greater than</p>}
+            rhs={<CondInput />}
           />
         );
         break;
@@ -74,7 +74,7 @@ const SelectExp = () => {
           <DisplayBinary
             operator="&lt;"
             lhs={<SelectSensor />}
-            rhs={<p>This is greater than</p>}
+            rhs={<CondInput />}
           />
         );
         break;
@@ -83,7 +83,25 @@ const SelectExp = () => {
           <DisplayBinary
             operator="&le;"
             lhs={<SelectSensor />}
-            rhs={<p>This is greater than</p>}
+            rhs={<CondInput />}
+          />
+        );
+        break;
+      case "ne":
+        setDisplayExp(
+          <DisplayBinary
+            operator="&ne;"
+            lhs={<SelectSensor />}
+            rhs={<CondInput />}
+          />
+        );
+        break;
+      case "eq":
+        setDisplayExp(
+          <DisplayBinary
+            operator="&#61;"
+            lhs={<SelectSensor />}
+            rhs={<CondInput />}
           />
         );
         break;

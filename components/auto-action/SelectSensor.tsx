@@ -13,9 +13,10 @@ import {
   Button,
 } from "@chakra-ui/react";
 import FilterSection from "../filter/FilterSection";
-import MySelect from "../filter/MySelectMult";
 import { FilterType } from "@/Type";
-import Room from "../Room";
+import SensorInfo from "./SensorInfo";
+import MySelectMultiple from "../filter/MySelectMult";
+import ResetButton from "../filter/ResetButton";
 
 const SelectSensor = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -26,33 +27,84 @@ const SelectSensor = () => {
         Choose Sensor
       </Button>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal isOpen={isOpen} onClose={onClose} size={"6xl"}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Choose Sensor</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <FilterSection filterList={filter} setFilterList={setFilter}>
-              <MySelect
-                optList={["sensor1", "sensor2", "sensor3", "sensor4"]}
-                placeholder="Sensor"
-                filterList={filter}
-                setFilterList={setFilter}
-                objField="sensors"
-              />
+              <div className="flex gap-2">
+                <MySelectMultiple
+                  optList={["sensor1", "sensor2", "sensor3", "sensor4"]}
+                  placeholder="Sensor"
+                  filterList={filter}
+                  setFilterList={setFilter}
+                  objField="sensors"
+                />
+                <MySelectMultiple
+                  optList={["Room 1", "Room 2", "Room 3", "Room 4"]}
+                  placeholder="Room"
+                  filterList={filter}
+                  setFilterList={setFilter}
+                  objField="rooms"
+                />
+                <ResetButton setFilterList={setFilter} />
+              </div>
             </FilterSection>
             {/* Use a list of rooms fetched from the database. */}
-            <Room name="Room 1" kind="sensors"/>
-            <Room name="Room 1" kind="sensors"/>
-            <Room name="Room 1" kind="sensors"/>
-            <Room name="Room 1" kind="sensors"/>
+            <div className="gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-4">
+              <SensorInfo
+                sensorInf={{
+                  name: "sensor x",
+                  type: "Thermometer",
+                  location: "Room A",
+                }}
+                handleClick={() => {
+                  console.log("You click");
+                  onClose();
+                }}
+              />
+              <SensorInfo
+                sensorInf={{
+                  name: "sensor x",
+                  type: "Thermometer",
+                  location: "Room A",
+                }}
+                handleClick={() => {
+                  console.log("You click");
+                  onClose();
+                }}
+              />
+              <SensorInfo
+                sensorInf={{
+                  name: "sensor x",
+                  type: "Thermometer",
+                  location: "Room A",
+                }}
+                handleClick={() => {
+                  console.log("You click");
+                  onClose();
+                }}
+              />
+              <SensorInfo
+                sensorInf={{
+                  name: "sensor x",
+                  type: "Thermometer",
+                  location: "Room A",
+                }}
+                handleClick={() => {
+                  console.log("You click");
+                  onClose();
+                }}
+              />
+            </div>
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button colorScheme="blue" ml={3} onClick={onClose}>
               Close
             </Button>
-            <Button variant="ghost">Secondary Action</Button>
           </ModalFooter>
         </ModalContent>
       </Modal>

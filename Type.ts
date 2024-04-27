@@ -14,4 +14,10 @@ interface FilterType {
   dateTo?: string
 }
 
-export type { NavItemType, FilterType }
+interface SensorInfoType {
+  name: string,
+  type: string, 
+  location: string
+}
+
+export type { NavItemType, FilterType, SensorInfoType}
