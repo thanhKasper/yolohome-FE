@@ -1,33 +1,41 @@
 "use client";
+import { FilterType } from "@/Type";
 import Room from "@/components/Room";
 import FilterSection from "@/components/filter/FilterSection";
-import MySelect from "@/components/filter/MySelect";
+import MySelect from "@/components/filter/MySelectMult";
 import SearchBar from "@/components/filter/SearchBar";
 import React, { useState } from "react";
 
 const SensorsPage = () => {
-  const [filterList, setFilterList] = useState<string[]>([]);
+  const [filterList, setFilterList] = useState<FilterType>({});
+  console.log(filterList);
   return (
     <>
       <FilterSection filterList={filterList} setFilterList={setFilterList}>
         <div className="flex gap-2 items-center">
           <MySelect
-            optList={["Thermometer", "Spacedometer", "Door"]}
+            optList={["Temperature Sensor", "Distance Sensor"]}
+            filterList={filterList}
             setFilterList={setFilterList}
+            objField="sensors"
             placeholder="Sensors"
           />
           <MySelect
             optList={["Living Room", "Kitchen", "Bedroom", "Bathroom", "Yard"]}
+            filterList={filterList}
             setFilterList={setFilterList}
+            objField="rooms"
             placeholder="Rooms"
           />
           <SearchBar
-            setFilterList={setFilterList}
-            placeholder="Search Sensors Name"
+            handleSearch={searchKeyword => {
+              setFilterList(old => ({ ...old, searchKey: searchKeyword }));
+            }}
+            placeholder="Search Device Name"
           />
           <button
             className="flex items-center gap-1 hover:rounded-full hover:bg-slate-200 p-2 text-sm"
-            onClick={() => setFilterList([])}
+            onClick={() => setFilterList({})}
           >
             <img src="/filter/reset.png" alt="reset" className="w-4" />
             Reset

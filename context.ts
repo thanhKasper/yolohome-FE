@@ -1,5 +1,5 @@
 import {createContext} from 'react'
-import { NavItemType } from './TypeList';
+import { NavItemType } from './Type';
 import {v4 as uuid} from "uuid"
 
 const navList: NavItemType[] = [
