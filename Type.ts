@@ -22,8 +22,10 @@ interface SensorInfoType {
   location: string
 }
 
+type DeviceInfoType = SensorInfoType
+
 type cmpType = "Time" | "Sensor" | "Choosing"
 
 type AstType = IfStmt | BinaryOp | NotOp | Sensor | Threshold
 
-export type { NavItemType, FilterType, SensorInfoType, cmpType, AstType}
+export type { NavItemType, FilterType, SensorInfoType, cmpType, AstType, DeviceInfoType}

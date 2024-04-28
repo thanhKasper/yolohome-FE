@@ -35,10 +35,6 @@ const SelectExp = ({ ast, pos }: { ast: any; pos: string }) => {
   const [op, setOp] = useState<string>("");
   const [isRemoveChild, setRemoveChild] = useState<boolean>(true)
 
-  // // Delete a ast leaf if the component is removed
-  // if (!isRemoveChild) {
-  //   ast.removeSubTree()
-  // }
   return (
     <>
       {isRemoveChild && (
