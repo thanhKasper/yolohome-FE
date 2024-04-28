@@ -13,18 +13,22 @@ import {
   Button,
 } from "@chakra-ui/react";
 import FilterSection from "../filter/FilterSection";
-import { FilterType } from "@/Type";
+import { FilterType, SensorInfoType } from "@/Type";
 import SensorInfo from "./SensorInfo";
 import MySelectMultiple from "../filter/MySelectMult";
 import ResetButton from "../filter/ResetButton";
+import { Sensor } from "@/utils/AST";
 
-const SelectSensor = () => {
+const SelectSensor = ({ast}:{ast:any}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [filter, setFilter] = useState<FilterType>({});
+  const [chosenSensor, setChosenSensor] = useState<SensorInfoType | null>(null);
+  console.log("ast sensor before adding", ast)
+  chosenSensor && ast.addSubTree(new Sensor(chosenSensor?.name, chosenSensor?.type, chosenSensor?.location), ast.rhs)
   return (
     <>
       <Button onClick={onOpen} size="sm" bgColor={"#3531F0"} color={"white"}>
-        Choose Sensor
+        {chosenSensor ? chosenSensor.name : "Choose Sensor"}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} size={"6xl"}>
@@ -62,39 +66,56 @@ const SelectSensor = () => {
                 }}
                 handleClick={() => {
                   console.log("You click");
+                  setChosenSensor({
+                    name: "sensor x",
+                    type: "Thermometer",
+                    location: "Room A",
+                  });
                   onClose();
                 }}
               />
               <SensorInfo
                 sensorInf={{
-                  name: "sensor x",
-                  type: "Thermometer",
-                  location: "Room A",
+                  name: "sensor y",
+                  type: "Humid Sensor",
+                  location: "Room B",
                 }}
                 handleClick={() => {
-                  console.log("You click");
+                  setChosenSensor({
+                    name: "sensor y",
+                    type: "Humid Sensor",
+                    location: "Room B",
+                  });
                   onClose();
                 }}
               />
               <SensorInfo
                 sensorInf={{
-                  name: "sensor x",
-                  type: "Thermometer",
-                  location: "Room A",
+                  name: "sensor k",
+                  type: "Radar Sensor",
+                  location: "Room R",
                 }}
                 handleClick={() => {
-                  console.log("You click");
+                  setChosenSensor({
+                    name: "sensor k",
+                    type: "Radar Sensor",
+                    location: "Room R",
+                  });
                   onClose();
                 }}
               />
               <SensorInfo
                 sensorInf={{
-                  name: "sensor x",
+                  name: "sensor Z",
                   type: "Thermometer",
-                  location: "Room A",
+                  location: "Room T",
                 }}
                 handleClick={() => {
-                  console.log("You click");
+                  setChosenSensor({
+                    name: "sensor Z",
+                    type: "Thermometer",
+                    location: "Room T",
+                  });
                   onClose();
                 }}
               />

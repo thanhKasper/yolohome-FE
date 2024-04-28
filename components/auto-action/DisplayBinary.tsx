@@ -6,37 +6,67 @@ import SelectTimeOrSensor from "./SelectTimeOrSensor";
 import CondInput from "./SensorInput";
 import SensorInput from "./SensorInput";
 import DateInput from "./DateInput";
+import { BinaryOp, IfStmt, NotOp } from "@/utils/AST";
+import { AstType, cmpType } from "@/Type";
+import next from "next";
 
 const DisplayBinary = ({
   operator,
-  lhs,
-  rhs,
+  pos,
+  ast,
+  removeChild,
+  setRemoveChild,
 }: {
   operator: string;
-  lhs: React.ReactNode;
-  rhs: React.ReactNode;
+  pos: string;
+  ast: any;
+  removeChild: boolean;
+  setRemoveChild: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  // Sensor | Time
-  const [cmpType, setCmpType] = useState<string>("None");
-  console.log("Inside DisplayBinary with operator ", operator, cmpType);
-  const binJsx = (
-    <div className="flex items-center flex-wrap gap-1">
+  const [cmpType, setCmpType] = useState<cmpType>("Choosing")
+
+  let nextAst = null;
+  if (pos == "left")
+    nextAst = ast.addSubTree(new BinaryOp(operator, null, null), null)
+  else if (pos == "right") 
+    nextAst = ast.addSubTree(null, new BinaryOp(operator, null, null))
+  else 
+    nextAst = ast.addSubTree(new BinaryOp(operator, null, null))
+
+  return (
+    <div className="flex items-center flex-wrap gap-2">
       <span className="font-semibold text-2xl select-none">(</span>
       {["and", "or"].indexOf(operator) == -1 ? (
-        <SelectTimeOrSensor setCmpType={setCmpType} />
+        <SelectTimeOrSensor
+          ast={nextAst}
+          cmpType={cmpType}
+          setCmpType={setCmpType}
+        />
       ) : (
-        lhs
+        <SelectExp ast={nextAst} pos="left" />
       )}{" "}
-      <span className="font-semibold select-none">{operator}</span>
+      <span
+        className="font-semibold select-none"
+        dangerouslySetInnerHTML={{ __html: operator }}
+      >
+        {/* {operator} */}
+      </span>
       {["and", "or"].indexOf(operator) == -1 ? (
-        cmpType == "Sensor" ? <SensorInput/> : cmpType == "Time" ? <DateInput/> : <p>Waiting...</p>
+        cmpType == "Sensor" ? (
+          <SensorInput ast={nextAst} />
+        ) : cmpType == "Time" ? (
+          <DateInput ast={nextAst} />
+        ) : (
+          <p>Waiting...</p>
+        )
       ) : (
-        rhs
+        <SelectExp ast={nextAst} pos="right" />
       )}
       <span
         className="w-6 h-6 rounded-full flex items-center justify-center bg-slate-300 active:bg-slate-200"
         onClick={() => {
-          handleClose();
+          ast.removeSubTree();
+          setRemoveChild(true);
         }}
       >
         <svg
@@ -56,17 +86,6 @@ const DisplayBinary = ({
       <span className="font-semibold text-2xl select-none">)</span>
     </div>
   );
-  const [display, setDisplay] = useState(binJsx);
-
-  useEffect(() => {
-    setDisplay(binJsx)
-  }, [cmpType])
-
-  const handleClose = () => {
-    setDisplay(<SelectExp />);
-  };
-
-  return display;
 };
 
 export default DisplayBinary;

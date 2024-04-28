@@ -1,16 +1,28 @@
 import React, { useState } from "react";
 import SelectExp from "./SelectExp";
+import { NotOp } from "@/utils/AST";
 
-const DisplayNot = ({ operand }: { operand: React.ReactNode }) => {
-  const displayNot = (
+const DisplayNot = ({
+  removeChild,
+  setRemoveChild,
+  ast
+}: {
+  removeChild: boolean;
+  setRemoveChild: React.Dispatch<React.SetStateAction<boolean>>;
+  ast: any
+}) => {
+  const nextAst = ast.addSubTree(new NotOp(null))
+
+  return (
     <div className="flex items-center flex-wrap gap-1">
       <span className="font-semibold select-none text-2xl">(</span>
       <span className="font-semibold select-none">not</span>
-      {operand}
+      <SelectExp ast={nextAst} pos="none"/>
       <span
         className="w-6 h-6 rounded-full flex items-center justify-center bg-slate-300 active:bg-slate-200"
         onClick={() => {
-          setShowJsx(<SelectExp />);
+          ast.removeSubTree()
+          setRemoveChild(true);
         }}
       >
         <svg
@@ -30,9 +42,6 @@ const DisplayNot = ({ operand }: { operand: React.ReactNode }) => {
       <span className="font-semibold select-none text-2xl">)</span>
     </div>
   );
-  const [showJsx, setShowJsx] = useState(displayNot);
-
-  return showJsx;
 };
 
 export default DisplayNot;

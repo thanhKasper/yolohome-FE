@@ -1,3 +1,5 @@
+import { BinaryOp, IfStmt, NotOp, Sensor, Threshold } from "./utils/AST";
+
 interface NavItemType {
   itemName: string;
   itemLink: string;
@@ -20,4 +22,8 @@ interface SensorInfoType {
   location: string
 }
 
-export type { NavItemType, FilterType, SensorInfoType}
+type cmpType = "Time" | "Sensor" | "Choosing"
+
+type AstType = IfStmt | BinaryOp | NotOp | Sensor | Threshold
+
+export type { NavItemType, FilterType, SensorInfoType, cmpType, AstType}

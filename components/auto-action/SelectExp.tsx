@@ -5,86 +5,67 @@ import { Select } from "@chakra-ui/react";
 import DisplayNot from "./DisplayNot";
 import DisplayBinary from "./DisplayBinary";
 
-const SelectExp = () => {
-  const selectExpr = (
-    <Select
-      placeholder="Choose operator"
-      bgColor={"white"}
-      size="sm"
-      onChange={e => handleSelect(e.target.value)}
-      width={40}
-    >
-      <option value="and">and</option>
-      <option value="or">or</option>
-      <option value="not">not</option>
-      <option value="gt">&gt;</option>
-      <option value="gte">&ge;</option>
-      <option value="lt">&lt;</option>
-      <option value="le">&le;</option>
-      <option value="ne">&ne;</option>
-      <option value="eq">&#61;</option>
-    </Select>
+function convertOperator(selectOp: string) {
+  let htmlEntityCode = ""
+  if (selectOp == "and")
+    htmlEntityCode = "and"
+  else if (selectOp == "or")
+    htmlEntityCode = "or"
+  else if (selectOp == "not")
+    htmlEntityCode = "not"
+  else if (selectOp == "gt")
+    htmlEntityCode = '\&gt;'
+  else if (selectOp == "gte")
+    htmlEntityCode = "\&ge;"
+  else if (selectOp == "lt")
+    htmlEntityCode = "&lt;"
+  else if (selectOp == "lte")
+    htmlEntityCode = "&le;"
+  else if (selectOp == "ne")
+    htmlEntityCode = "&ne;"
+  else if (selectOp == "eq")
+    htmlEntityCode = "&#61;";
+  return htmlEntityCode
+}
+
+// The removal should be handle by selectExpr otherwise it will create a lot of redundant DisplayBinary
+
+const SelectExp = ({ ast, pos }: { ast: any; pos: string }) => {
+  console.log("Select Exp", pos)
+  const [op, setOp] = useState<string>("");
+  const [isRemoveChild, setRemoveChild] = useState<boolean>(true)
+
+  // // Delete a ast leaf if the component is removed
+  // if (!isRemoveChild) {
+  //   ast.removeSubTree()
+  // }
+  return (
+    <>
+      {isRemoveChild && (
+        <Select
+          placeholder="Choose operator"
+          bgColor={"white"}
+          size="sm"
+          onChange={e => {
+            setRemoveChild(false)
+            setOp(e.target.value)
+          }}
+          width={40}
+        >
+          <option value="and">and</option>
+          <option value="or">or</option>
+          <option value="not">not</option>
+          <option value="gt">&gt;</option>
+          <option value="gte">&ge;</option>
+          <option value="lt">&lt;</option>
+          <option value="le">&le;</option>
+          <option value="ne">&ne;</option>
+          <option value="eq">&#61;</option>
+        </Select>
+      )}
+      {!isRemoveChild && op !== "not" && <DisplayBinary operator={convertOperator(op)} ast={ast} pos={pos} removeChild={isRemoveChild} setRemoveChild={setRemoveChild}/>}
+      {!isRemoveChild && op === "not" && <DisplayNot ast={ast} removeChild={isRemoveChild} setRemoveChild={setRemoveChild}/>}
+    </>
   );
-  const [displayExp, setDisplayExp] = useState(selectExpr);
-  const handleSelect = (op: string) => {
-    switch (op) {
-      case "and":
-        setDisplayExp(
-          <DisplayBinary
-            operator="and"
-            lhs={<SelectExp />}
-            rhs={<SelectExp />}
-          />
-        );
-        break;
-      case "or":
-        setDisplayExp(
-          <DisplayBinary
-            operator="or"
-            lhs={<SelectExp />}
-            rhs={<SelectExp />}
-          />
-        );
-        break;
-      case "not":
-        setDisplayExp(<DisplayNot operand={<SelectExp />} />);
-        break;
-      case "gt":
-        setDisplayExp(
-          <DisplayBinary operator="&gt;" lhs={<p>None</p>} rhs={<p>None</p>} />
-        );
-        break;
-      case "gte":
-        setDisplayExp(
-          <DisplayBinary operator="&ge;" lhs={<p>None</p>} rhs={<p>None</p>} />
-        );
-        break;
-      case "lt":
-        setDisplayExp(
-          <DisplayBinary operator="&lt;" lhs={<p>None</p>} rhs={<p>None</p>} />
-        );
-        break;
-      case "lte":
-        setDisplayExp(
-          <DisplayBinary operator="&le;" lhs={<p>None</p>} rhs={<p>None</p>} />
-        );
-        break;
-      case "ne":
-        setDisplayExp(
-          <DisplayBinary operator="&ne;" lhs={<p>None</p>} rhs={<p>None</p>} />
-        );
-        break;
-      case "eq":
-        setDisplayExp(
-          <DisplayBinary operator="&#61;" lhs={<p>None</p>} rhs={<p>None</p>} />
-        );
-        break;
-      default:
-        setDisplayExp(selectExpr);
-    }
-  };
-
-  return displayExp;
 };
-
 export default SelectExp;

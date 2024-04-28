@@ -5,6 +5,7 @@ class Exp {
     public accept(visitAST: ASTGen) {
         throw("You need to implement this")
     }
+
 }
 
 class IfStmt {
@@ -17,6 +18,15 @@ class IfStmt {
 
     public accept(visitAST: ASTGen) {
         visitAST.visit(this)
+    }
+
+    public addSubTree(newTree: any) {
+        this.condition = newTree
+        return this.condition
+    }
+
+    public removeSubTree() {
+        this.condition = null
     }
 }
 
@@ -34,17 +44,38 @@ class BinaryOp extends Exp {
     public accept(visitAST: ASTGen) {
         visitAST.visit(this)
     }
+
+    public addSubTree(leftTree: any, rightTree: any) {
+        this.lhs = leftTree
+        this.rhs = rightTree
+        return this.lhs ? this.lhs : this.rhs
+    }
+
+
+    public removeSubTree() {
+        this.lhs = null
+        this.rhs = null
+    }
 }
 
 class NotOp extends Exp {
-    operand: BinaryOp
-    constructor(operand: BinaryOp) {
+    operand:any
+    constructor(operand: any) {
         super()
         this.operand = operand
     }
 
     public accept(visitAST: ASTGen) {
         visitAST.visit(this)
+    }
+
+    public addSubTree(subTree: any) {
+        this.operand = subTree
+        return this.operand
+    }
+
+    public removeSubTree() {
+        this.operand = null
     }
 }
 
@@ -64,9 +95,19 @@ class Sensor extends Exp {
     }
 }
 
-class SensorThreshold extends Exp {
-    threshold: number
-    constructor(value: number) {
+class AstTime extends Exp {
+    constructor() {
+        super()
+    }
+
+    public accept(visitAST: ASTGen) {
+        visitAST.visit(this)
+    }
+}
+
+class Threshold extends Exp {
+    threshold: string
+    constructor(value: string) {
         super()
         this.threshold = value
     }
@@ -76,4 +117,4 @@ class SensorThreshold extends Exp {
     }
 }
 
-export {BinaryOp, NotOp, Sensor, SensorThreshold, IfStmt}
+export {BinaryOp, NotOp, Sensor, Threshold, IfStmt, AstTime}
