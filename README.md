@@ -30,3 +30,7 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+# What I have learned?
+
+- Create a new branch in git if you want to make a huge change in the code (you don't want to ctrl + Z)
+- useEffect should only be used when getting out of React scope

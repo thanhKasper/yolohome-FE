@@ -11,8 +11,8 @@ const DeviceChooseStep = ({
 }: {
   handleAction: React.Dispatch<
     React.SetStateAction<{
-      device: DeviceInfoType | null;
-      state: number;
+      device: DeviceInfoType;
+      state: number | null;
     }>
   >;
   moveNext: () => void

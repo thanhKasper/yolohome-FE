@@ -41,6 +41,18 @@ class DeviceLight extends Device {
         this.location = location 
         this.state = currState
     }
+
+    setDeviceState(state) {
+        this.state = state
+    }
+
+    displayState() {
+        return {
+            name: this.name,
+            type: "Light",
+            location: 
+        }
+    }
 }
 
 class DeviceFan extends Device {
@@ -58,3 +70,4 @@ class DeviceDoor extends Device {
         this.state = currState
     }
 }
+

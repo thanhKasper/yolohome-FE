@@ -31,10 +31,8 @@ function convertOperator(selectOp: string) {
 // The removal should be handle by selectExpr otherwise it will create a lot of redundant DisplayBinary
 
 const SelectExp = ({ ast, pos }: { ast: any; pos: string }) => {
-  console.log("Select Exp", pos)
   const [op, setOp] = useState<string>("");
   const [isRemoveChild, setRemoveChild] = useState<boolean>(true)
-
   return (
     <>
       {isRemoveChild && (
@@ -59,8 +57,8 @@ const SelectExp = ({ ast, pos }: { ast: any; pos: string }) => {
           <option value="eq">&#61;</option>
         </Select>
       )}
-      {!isRemoveChild && op !== "not" && <DisplayBinary operator={convertOperator(op)} ast={ast} pos={pos} removeChild={isRemoveChild} setRemoveChild={setRemoveChild}/>}
-      {!isRemoveChild && op === "not" && <DisplayNot ast={ast} removeChild={isRemoveChild} setRemoveChild={setRemoveChild}/>}
+      {!isRemoveChild && op !== "not" && <DisplayBinary operator={convertOperator(op)} ast={ast} pos={pos} setRemoveChild={setRemoveChild}/>}
+      {!isRemoveChild && op === "not" && <DisplayNot ast={ast} pos={pos} setRemoveChild={setRemoveChild}/>}
     </>
   );
 };

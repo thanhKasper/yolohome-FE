@@ -52,9 +52,11 @@ class BinaryOp extends Exp {
     }
 
 
-    public removeSubTree() {
-        this.lhs = null
-        this.rhs = null
+    public removeSubTree(pos: string) {
+        if (pos == "left")
+            this.lhs = null
+        else if (pos == "right")
+            this.rhs = null
     }
 }
 
@@ -117,4 +119,21 @@ class Threshold extends Exp {
     }
 }
 
-export {BinaryOp, NotOp, Sensor, Threshold, IfStmt, AstTime}
+class DeviceNode {
+    name: string;
+    type: string;
+    location: string;
+    state: number;
+    constructor(name: string, deviceType: string, loc: string, state: number) {
+        this.name = name
+        this.type = deviceType
+        this.location = loc 
+        this.state = state
+    }
+
+    public accept(visitAST: ASTGen) {
+        visitAST.visit(this)
+    }
+}
+
+export {BinaryOp, NotOp, Sensor, Threshold, IfStmt, AstTime, DeviceNode}

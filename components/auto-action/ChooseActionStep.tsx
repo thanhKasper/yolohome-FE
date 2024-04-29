@@ -11,13 +11,13 @@ const ChooseAction = ({
 }: {
   deviceInf: DeviceInfoType;
   action: {
-    device: DeviceInfoType | null;
-    state: number;
+    device: DeviceInfoType;
+    state: number | null;
   };
   handleAction: React.Dispatch<
     React.SetStateAction<{
-      device: DeviceInfoType | null;
-      state: number;
+      device: DeviceInfoType;
+      state: number | null;
     }>
   >;
   disabled: boolean;
@@ -38,7 +38,7 @@ const ChooseAction = ({
       </div>
       <p className="my-4">What you want to do with this device</p>
       <Select
-        defaultValue={action.state}
+        defaultValue={action.state ? action.state : 0}
         disabled={disabled}
         onChange={e => {
           handleAction(old => ({ ...old, state: Number(e.target.value) }));

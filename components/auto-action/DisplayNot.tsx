@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import SelectExp from "./SelectExp";
-import { NotOp } from "@/utils/AST";
+import { BinaryOp, NotOp } from "@/utils/AST";
 
 const DisplayNot = ({
-  removeChild,
   setRemoveChild,
-  ast
+  ast,
+  pos
 }: {
-  removeChild: boolean;
   setRemoveChild: React.Dispatch<React.SetStateAction<boolean>>;
-  ast: any
+  ast: any,
+  pos: string
 }) => {
-  const nextAst = ast.addSubTree(new NotOp(null))
+  let nextAst = null;
+  if (pos == "left")
+    nextAst = ast.addSubTree(new NotOp(null), ast.rhs);
+  else if (pos == "right")
+    nextAst = ast.addSubTree(ast.lhs, new NotOp(null));
+  else nextAst = ast.addSubTree(new NotOp(null));
 
   return (
     <div className="flex items-center flex-wrap gap-1">
@@ -21,7 +26,10 @@ const DisplayNot = ({
       <span
         className="w-6 h-6 rounded-full flex items-center justify-center bg-slate-300 active:bg-slate-200"
         onClick={() => {
-          ast.removeSubTree()
+          if (pos == "none")
+            ast.removeSubTree()
+          else 
+            ast.removeSubTree(pos)
           setRemoveChild(true);
         }}
       >

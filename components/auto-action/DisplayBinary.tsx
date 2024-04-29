@@ -14,22 +14,20 @@ const DisplayBinary = ({
   operator,
   pos,
   ast,
-  removeChild,
   setRemoveChild,
 }: {
   operator: string;
   pos: string;
   ast: any;
-  removeChild: boolean;
   setRemoveChild: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [cmpType, setCmpType] = useState<cmpType>("Choosing")
 
   let nextAst = null;
   if (pos == "left")
-    nextAst = ast.addSubTree(new BinaryOp(operator, null, null), null)
+    nextAst = ast.addSubTree(new BinaryOp(operator, null, null), ast.rhs)
   else if (pos == "right") 
-    nextAst = ast.addSubTree(null, new BinaryOp(operator, null, null))
+    nextAst = ast.addSubTree(ast.lhs, new BinaryOp(operator, null, null))
   else 
     nextAst = ast.addSubTree(new BinaryOp(operator, null, null))
 
@@ -65,7 +63,8 @@ const DisplayBinary = ({
       <span
         className="w-6 h-6 rounded-full flex items-center justify-center bg-slate-300 active:bg-slate-200"
         onClick={() => {
-          ast.removeSubTree();
+          console.log("Remove child node ", nextAst)
+          ast.removeSubTree(pos);
           setRemoveChild(true);
         }}
       >
