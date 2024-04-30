@@ -10,6 +10,7 @@ import { Button, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
 import { useToast } from "@chakra-ui/react";
+import ASTJsonParser from "@/visitor/VisitJsonParse";
 
 const AddAction = () => {
   const toast = useToast();
@@ -88,7 +89,9 @@ const AddAction = () => {
             console.log(ast);
             try {
               const actChecker = new ASTChecker(ast);
-            } catch (e: { err: string; message: string }) {
+              const astJson = new ASTJsonParser(ast, actionName);
+              console.log(astJson);
+            } catch (e: any) {
               // alert(e);
               toast({
                 title: e.err,
@@ -99,6 +102,7 @@ const AddAction = () => {
                 position: 'top'
               });
             }
+            
           }}
         >
           Submit

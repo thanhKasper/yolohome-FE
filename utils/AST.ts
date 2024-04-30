@@ -9,8 +9,8 @@ class Exp {
 }
 
 class IfStmt {
-    condition: any 
-    actions: any[]
+    condition: BinaryOp | NotOp | null
+    actions: DeviceNode[] 
     constructor(condition: any, actions: any[]) {
         this.condition = condition 
         this.actions = actions
@@ -32,8 +32,8 @@ class IfStmt {
 
 class BinaryOp extends Exp {
     op: string 
-    lhs: any 
-    rhs: any
+    lhs: BinaryOp | NotOp | Sensor | null
+    rhs: BinaryOp | NotOp | Sensor | null
     constructor(op: string, lhs: any, rhs: any) {
         super()
         this.op = op 
@@ -61,7 +61,7 @@ class BinaryOp extends Exp {
 }
 
 class NotOp extends Exp {
-    operand:any
+    operand: BinaryOp | NotOp | null
     constructor(operand: any) {
         super()
         this.operand = operand

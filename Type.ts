@@ -22,10 +22,38 @@ interface SensorInfoType {
   location: string
 }
 
-type DeviceInfoType = SensorInfoType
+interface DeviceInfoType {
+  name: string,
+  type: string, 
+  location: string
+}
 
 type cmpType = "Time" | "Sensor" | "Choosing"
 
 type AstType = IfStmt | BinaryOp | NotOp | Sensor | Threshold
 
-export type { NavItemType, FilterType, SensorInfoType, cmpType, AstType, DeviceInfoType}
+interface JsonParseType {
+  actionName: string ,
+  condition: BinaryJsonParseType | NotJsonParseType,
+  actionList: DeviceJsonParseType[] 
+}
+
+interface BinaryJsonParseType {
+  operator: string,
+  lhs: BinaryJsonParseType | NotJsonParseType | SensorInfoType | "time",
+  rhs: BinaryJsonParseType | NotJsonParseType | string
+}
+
+interface NotJsonParseType {
+  operator: "not",
+  operand: BinaryJsonParseType | NotJsonParseType
+}
+
+interface DeviceJsonParseType {
+  deviceName: string,
+  deviceType: string,
+  deviceLocation: string,
+  state: number
+}
+
+export type { NavItemType, FilterType, SensorInfoType, cmpType, AstType, DeviceInfoType, JsonParseType, BinaryJsonParseType, NotJsonParseType, DeviceJsonParseType}
