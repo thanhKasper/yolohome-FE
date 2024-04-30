@@ -70,7 +70,7 @@ const SelectAction = ({
   return (
     <>
       {action.device.name !== "" ? (
-        <div className="flex items-center font-semibold w-full justify-between bg-slate-200 p-1 pl-4 rounded-md">
+        <div className="flex items-center font-semibold w-full justify-between bg-slate-200 p-1 pl-4 rounded-md hover:bg-slate-100">
           {actionName(action)} for {action.device.name} at{" "}
           {action.device.location}
           <CloseButton
@@ -89,7 +89,7 @@ const SelectAction = ({
         </div>
       ) : (
         <div
-          className="flex items-center justify-between bg-slate-200 p-1 pl-4 cursor-pointer rounded-md hover:bg-s"
+          className="font-semibold flex items-center justify-between bg-slate-300 p-1 pl-4 cursor-pointer rounded-md hover:bg-slate-200"
           onClick={onOpen}
         >
           Choose Device

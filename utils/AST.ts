@@ -1,4 +1,4 @@
-import ASTGen from "@/ASTgen"
+import ASTGen from "@/visitor/VisitCheck"
 
 // These class will be used for Visitor Pattern
 class Exp {

@@ -1,6 +1,7 @@
 "use client";
 
 import { DeviceInfoType } from "@/Type";
+import ASTChecker from "@/visitor/VisitCheck";
 import ActionList from "@/components/auto-action/ActionList";
 import SelectAction from "@/components/auto-action/SelectAction";
 import SelectExp from "@/components/auto-action/SelectExp";
@@ -8,8 +9,10 @@ import { DeviceNode, IfStmt } from "@/utils/AST";
 import { Button, Input } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { v4 as uuid } from "uuid";
+import { useToast } from "@chakra-ui/react";
 
 const AddAction = () => {
+  const toast = useToast();
   const [actionName, setActionName] = useState<string>("");
   const [actionList, setActionList] = useState<
     {
@@ -18,7 +21,6 @@ const AddAction = () => {
     }[]
   >([]);
   const ast = new IfStmt(null, []);
-  console.log("My Action List", actionList);
   ast.actions = actionList.map(
     ele =>
       new DeviceNode(
@@ -83,7 +85,20 @@ const AddAction = () => {
           color={"white"}
           _hover={{ bgColor: "#5855FC" }}
           onClick={() => {
-            console.log(ast)
+            console.log(ast);
+            try {
+              const actChecker = new ASTChecker(ast);
+            } catch (e: { err: string; message: string }) {
+              // alert(e);
+              toast({
+                title: e.err,
+                description: e.message,
+                status: "error",
+                duration: 2000,
+                isClosable: true,
+                position: 'top'
+              });
+            }
           }}
         >
           Submit

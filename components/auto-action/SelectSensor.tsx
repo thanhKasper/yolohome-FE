@@ -19,16 +19,26 @@ import MySelectMultiple from "../filter/MySelectMult";
 import ResetButton from "../filter/ResetButton";
 import { Sensor } from "@/utils/AST";
 
-const SelectSensor = ({ast}:{ast:any}) => {
+
+const fakeSensorList: SensorInfoType[] = [
+  { name: "Garden Thermometer", type: "Thermometer", location: "Garden" },
+  { name: "Light Activator", type: "DistanceSensor", location: "BathRoom" },
+  { name: "Hall Light Activator", type: "DistanceSensor", location: "Hallway" },
+];
+
+const SelectSensor = ({ ast }: { ast: any }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [filter, setFilter] = useState<FilterType>({});
-  const [chosenSensor, setChosenSensor] = useState<SensorInfoType | null>(null);
-  console.log("ast sensor before adding", ast)
-  chosenSensor && ast.addSubTree(new Sensor(chosenSensor?.name, chosenSensor?.type, chosenSensor?.location), ast.rhs)
+  const [chosenSensor, setChosenSensor] = useState<SensorInfoType>({
+    name: "",
+    type: "",
+    location: "",
+  });
+  ast.addSubTree(new Sensor(chosenSensor.name, chosenSensor.type, chosenSensor.location), ast.rhs)
   return (
     <>
       <Button onClick={onOpen} size="sm" bgColor={"#3531F0"} color={"white"}>
-        {chosenSensor ? chosenSensor.name : "Choose Sensor"}
+        {chosenSensor.name !== "" ? chosenSensor.name : "Choose Sensor"}
       </Button>
 
       <Modal isOpen={isOpen} onClose={onClose} size={"6xl"}>
@@ -58,67 +68,17 @@ const SelectSensor = ({ast}:{ast:any}) => {
             </FilterSection>
             {/* Use a list of rooms fetched from the database. */}
             <div className="gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-4">
-              <SensorInfo
-                sensorInf={{
-                  name: "sensor x",
-                  type: "Thermometer",
-                  location: "Room A",
-                }}
-                handleClick={() => {
-                  console.log("You click");
-                  setChosenSensor({
-                    name: "sensor x",
-                    type: "Thermometer",
-                    location: "Room A",
-                  });
-                  onClose();
-                }}
-              />
-              <SensorInfo
-                sensorInf={{
-                  name: "sensor y",
-                  type: "Humid Sensor",
-                  location: "Room B",
-                }}
-                handleClick={() => {
-                  setChosenSensor({
-                    name: "sensor y",
-                    type: "Humid Sensor",
-                    location: "Room B",
-                  });
-                  onClose();
-                }}
-              />
-              <SensorInfo
-                sensorInf={{
-                  name: "sensor k",
-                  type: "Radar Sensor",
-                  location: "Room R",
-                }}
-                handleClick={() => {
-                  setChosenSensor({
-                    name: "sensor k",
-                    type: "Radar Sensor",
-                    location: "Room R",
-                  });
-                  onClose();
-                }}
-              />
-              <SensorInfo
-                sensorInf={{
-                  name: "sensor Z",
-                  type: "Thermometer",
-                  location: "Room T",
-                }}
-                handleClick={() => {
-                  setChosenSensor({
-                    name: "sensor Z",
-                    type: "Thermometer",
-                    location: "Room T",
-                  });
-                  onClose();
-                }}
-              />
+              {fakeSensorList.map((sensor, idx) => (
+                <SensorInfo
+                  key={idx}
+                  sensorInf={sensor}
+                  handleClick={sensor => {
+                    console.log("Chosen sensor: ", sensor)
+                    setChosenSensor(sensor);
+                    onClose();
+                  }}
+                />
+              ))}
             </div>
           </ModalBody>
 
