@@ -92,7 +92,7 @@ const FilterSection = ({
             </Tag>
           ))}
 
-        {filterList.searchKey && filterList.searchKey.length !== 0 &&
+        {filterList.searchKey && filterList.searchKey.length !== 0 && (
           <Tag
             size="md"
             borderRadius="full"
@@ -104,12 +104,53 @@ const FilterSection = ({
               className="*:brightness-0 *:invert"
               onClick={() =>
                 setFilterList(old => {
-                  return { ...old, searchKey: ""};
+                  return { ...old, searchKey: "" };
                 })
               }
             />
           </Tag>
-        }
+        )}
+        {filterList.dateFrom && (
+          <Tag
+            size="md"
+            borderRadius="full"
+            backgroundColor={"#718EBF"}
+            className="p-1"
+          >
+            <TagLabel className="text-white">
+              From {filterList.dateFrom.toDateString()}
+            </TagLabel>
+            <TagCloseButton
+              className="*:brightness-0 *:invert"
+              onClick={() =>
+                setFilterList(old => {
+                  return { ...old, dateFrom: undefined };
+                })
+              }
+            />
+          </Tag>
+        )}
+
+        {filterList.dateTo && (
+          <Tag
+            size="md"
+            borderRadius="full"
+            backgroundColor={"#718EBF"}
+            className="p-1"
+          >
+            <TagLabel className="text-white">
+              Until {filterList.dateTo.toDateString()}
+            </TagLabel>
+            <TagCloseButton
+              className="*:brightness-0 *:invert"
+              onClick={() =>
+                setFilterList(old => {
+                  return { ...old, dateTo: undefined };
+                })
+              }
+            />
+          </Tag>
+        )}
       </div>
     </>
   );

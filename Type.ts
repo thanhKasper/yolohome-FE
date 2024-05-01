@@ -12,8 +12,8 @@ interface FilterType {
   devices?: string[],
   rooms?: string[],
   searchKey?: string,
-  dateFrom?: string,
-  dateTo?: string
+  dateFrom?: Date | undefined,
+  dateTo?: Date | undefined
 }
 
 interface SensorInfoType {

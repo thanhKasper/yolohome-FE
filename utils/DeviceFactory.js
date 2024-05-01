@@ -50,7 +50,7 @@ class DeviceLight extends Device {
         return {
             name: this.name,
             type: "Light",
-            location: 
+            location: this.location
         }
     }
 }

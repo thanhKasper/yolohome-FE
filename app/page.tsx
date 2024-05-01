@@ -68,13 +68,13 @@ export default function Dashboard() {
   return (
     <>
       <h3 className="text-xl font-semibold">My Devices</h3>
-      <div className="mt-4 flex flex-wrap gap-6">
+      <div className="mt-4 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Card kind="devices" />
         <Card kind="devices" />
       </div>
 
       <h3 className="text-xl font-semibold mt-8">My Sensors</h3>
-      <div className="mt-4 flex flex-wrap gap-6">
+      <div className="mt-4 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Card kind="sensors" />
         <Card kind="sensors" />
         <Card kind="sensors" />

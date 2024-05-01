@@ -40,14 +40,12 @@ class ASTJsonParser {
             rhs: this.visit(ast.rhs)
         }
     }
-
     public visitNotOp(ast: NotOp): NotJsonParseType {
         return {
             operator: "not",
             operand: this.visit(ast.operand)
         }
     }
-
     public visitSensor(ast: Sensor): SensorInfoType {
         return {
             name: ast.sensorName,
@@ -55,15 +53,12 @@ class ASTJsonParser {
             location: ast.sensorLoc
         }
     }
-
     public visitAstTime(ast: AstTime): "time" {
         return "time"
     }
-
     public visitThreshold(ast: Threshold): string {
         return ast.threshold
     }
-
     public visitAction(ast: DeviceNode): DeviceJsonParseType {
         return {
             deviceName: ast.name,
