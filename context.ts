@@ -28,15 +28,21 @@ const navList: NavItemType[] = [
     imgLink: "/sidebar/Auto.svg",
   },
   {
+    itemName: "Statistic",
+    itemLink: "/stat",
+    navId: "5",
+    imgLink: "/sidebar/stat.png"
+  },
+  {
     itemName: "Activity Log",
     itemLink: "/log",
-    navId: "5",
+    navId: "6",
     imgLink: "/sidebar/Log.svg",
   },
   {
     itemName: "Setting",
     itemLink: "/setting",
-    navId: "6",
+    navId: "7",
     imgLink: "/sidebar/setting.svg",
   },
 ];
