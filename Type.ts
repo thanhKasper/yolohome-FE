@@ -19,13 +19,12 @@ interface FilterType {
 interface SensorInfoType {
   name: string,
   type: string, 
-  location: string
+  value: string
 }
 
 interface DeviceInfoType {
   name: string,
   type: string, 
-  location: string
 }
 
 type cmpType = "Time" | "Sensor" | "Choosing"

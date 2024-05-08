@@ -1,15 +1,52 @@
 "use client";
-import { FilterType } from "@/Type";
+import { FilterType, SensorInfoType } from "@/Type";
 import Room from "@/components/Room";
+import Card from "@/components/card/Card";
 import FilterSection from "@/components/filter/FilterSection";
 import MySelect from "@/components/filter/MySelectMult";
 import ResetButton from "@/components/filter/ResetButton";
 import SearchBar from "@/components/filter/SearchBar";
-import React, { useState } from "react";
+import {
+  HumidSensorFactory,
+  LightSensorFactory,
+  TemperatureSensorFactory,
+} from "@/utils/SensorFactory";
+import { be_url } from "@/web_config";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
 const SensorsPage = () => {
   const [filterList, setFilterList] = useState<FilterType>({});
-  console.log(filterList);
+  const [sensorList, setSensorList] = useState<SensorInfoType[]>([]);
+  useEffect(() => {
+    const getStatusList = async () => {
+      try {
+        const getDevices = await axios.get(`${be_url}/statusDevices`);
+
+        const humidSensorObj = new HumidSensorFactory().createDevice(
+          "Humid Sensor",
+          getDevices.data.humid
+        );
+        const lightSensorObj = new LightSensorFactory().createDevice(
+          "Light Sensor",
+          getDevices.data.uv
+        );
+        const TempSensorObj = new TemperatureSensorFactory().createDevice(
+          "Temperature Sensor",
+          getDevices.data.temp
+        );
+        setSensorList([
+          TempSensorObj.displayState(),
+          humidSensorObj.displayState(),
+          lightSensorObj.displayState(),
+        ]);
+      } catch (e) {
+        console.log(e);
+      }
+    };
+
+    getStatusList();
+  }, []);
   return (
     <>
       <FilterSection filterList={filterList} setFilterList={setFilterList}>
@@ -34,16 +71,18 @@ const SensorsPage = () => {
             }}
             placeholder="Search Device Name"
           />
-          <ResetButton setFilterList={setFilterList}/>
+          <ResetButton setFilterList={setFilterList} />
           <button className="bg-my-primary active:bg-blue-600 text-white py-1 px-2 rounded-md text-sm ml-auto">
             Add Room
           </button>
         </div>
       </FilterSection>
-      <Room name="Living Room" kind="sensors" />
-      <Room name="Kitchen" kind="sensors" />
-      <Room name="Bedroom" kind="sensors" />
-      <Room name="Garden" kind="sensors" />
+      <div className="mt-4 gap-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        {sensorList &&
+          sensorList.map((sensor, idx) => (
+            <Card key={idx} kind="sensors" device={sensor} />
+          ))}
+      </div>
     </>
   );
 };

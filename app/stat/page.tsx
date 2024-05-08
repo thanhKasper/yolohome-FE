@@ -9,7 +9,7 @@ const StatisticPage = () => {
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
       <WaterChart />
       <HumidChart />
-      <PersonWaterChart/>
+      {/* <PersonWaterChart/> */}
       <TempChart/>
     </div>
   );

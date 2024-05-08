@@ -19,11 +19,6 @@ const Topbar = () => {
         <div className="w-10 h-10 bg-background rounded-full flex items-center justify-center">
           <img src="/topbar/noti.png" alt="" />
         </div>
-        <Avatar
-          size="md"
-          name="Dan Abrahmov"
-          src="https://bit.ly/dan-abramov"
-        />
       </div>
     </div>
   );

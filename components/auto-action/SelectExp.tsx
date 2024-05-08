@@ -52,7 +52,7 @@ const SelectExp = ({ ast, pos }: { ast: any; pos: string }) => {
           <option value="gt">&gt;</option>
           <option value="gte">&ge;</option>
           <option value="lt">&lt;</option>
-          <option value="le">&le;</option>
+          <option value="lte">&le;</option>
           <option value="ne">&ne;</option>
           <option value="eq">&#61;</option>
         </Select>

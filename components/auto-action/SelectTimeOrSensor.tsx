@@ -37,7 +37,7 @@ const SelectTimeOrSensor = ({
   else if (cmpType == "Sensor")
     return <SelectSensor ast={ast}/>
   else if (cmpType == "Time") {
-    ast.addSubTree(new AstTime(), null)
+    ast.addSubTree(new AstTime(), ast.rhs, "left")
     return <span>CurrenTime</span>
   }
 };

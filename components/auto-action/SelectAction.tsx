@@ -55,13 +55,13 @@ const SelectAction = ({
     device: DeviceInfoType;
     state: number | null;
   }) {
-    if (action.device.type == "Light") {
+    if (action.device.type == "light") {
       if (!action.state || action.state == 0) return "Turn off";
       else return "Turn on";
-    } else if (action.device.type == "Fan") {
+    } else if (action.device.type == "fan") {
       if (!action.state || action.state == 0) return "Turn off";
       else return `Set speed to ${action.state}`;
-    } else if (action.device.type == "Door") {
+    } else if (action.device.type == "door") {
       if (!action.state || action.state == 0) return "Lock";
       else return "Unlock";
     }
@@ -71,8 +71,7 @@ const SelectAction = ({
     <>
       {action.device.name !== "" ? (
         <div className="flex items-center font-semibold w-full justify-between bg-slate-200 p-1 pl-4 rounded-md hover:bg-slate-100">
-          {actionName(action)} for {action.device.name} at{" "}
-          {action.device.location}
+          {actionName(action)} for {action.device.name}
           <CloseButton
             onClick={() => {
               updateActionList(oldList => {
@@ -80,7 +79,6 @@ const SelectAction = ({
                   ele =>
                     ele.device.name !== deviceObj.device.name ||
                     ele.device.type !== deviceObj.device.type ||
-                    ele.device.location !== deviceObj.device.location ||
                     ele.state !== deviceObj.state
                 );
               });
@@ -100,7 +98,6 @@ const SelectAction = ({
                   ele =>
                     ele.device.name !== deviceObj.device.name ||
                     ele.device.type !== deviceObj.device.type ||
-                    ele.device.location !== deviceObj.device.location ||
                     ele.state !== deviceObj.state
                 );
               });
@@ -121,7 +118,7 @@ const SelectAction = ({
           <ModalCloseButton
             onClick={() => {
               setAction({
-                device: { name: "", type: "", location: "" },
+                device: { name: "", type: ""},
                 state: null,
               });
               setActiveStep(0);

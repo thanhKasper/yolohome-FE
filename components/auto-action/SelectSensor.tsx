@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -18,23 +18,58 @@ import SensorInfo from "./SensorInfo";
 import MySelectMultiple from "../filter/MySelectMult";
 import ResetButton from "../filter/ResetButton";
 import { Sensor } from "@/utils/AST";
+import axios from "axios";
+import { be_url } from "@/web_config";
+import { HumidSensorFactory, LightSensorFactory, TemperatureSensorFactory } from "@/utils/SensorFactory";
 
 
-const fakeSensorList: SensorInfoType[] = [
-  { name: "Garden Thermometer", type: "Thermometer", location: "Garden" },
-  { name: "Light Activator", type: "DistanceSensor", location: "BathRoom" },
-  { name: "Hall Light Activator", type: "DistanceSensor", location: "Hallway" },
+const fakeSensorList: {name:string, type:string}[] = [
+  { name: "Garden Thermometer", type: "Thermometer" },
+  { name: "Light Activator", type: "DistanceSensor"},
+  { name: "Hall Light Activator", type: "DistanceSensor"},
 ];
 
 const SelectSensor = ({ ast }: { ast: any }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [filter, setFilter] = useState<FilterType>({});
-  const [chosenSensor, setChosenSensor] = useState<SensorInfoType>({
+  const [chosenSensor, setChosenSensor] = useState<{name: string, type: string}>({
     name: "",
     type: "",
-    location: "",
   });
-  ast.addSubTree(new Sensor(chosenSensor.name, chosenSensor.type, chosenSensor.location), ast.rhs)
+  ast.addSubTree(new Sensor(chosenSensor.name, chosenSensor.type), ast.rhs, "left")
+
+    const [sensorList, setSensorList] = useState<SensorInfoType[]>([]);
+    useEffect(() => {
+      const getStatusList = async () => {
+        try {
+          const getDevices = await axios.get(`${be_url}/statusDevices`);
+
+          const humidSensorObj = new HumidSensorFactory().createDevice(
+            "Humid Sensor",
+            getDevices.data.humid
+          );
+          const lightSensorObj = new LightSensorFactory().createDevice(
+            "Light Sensor",
+            getDevices.data.uv
+          );
+          const TempSensorObj = new TemperatureSensorFactory().createDevice(
+            "Temperature Sensor",
+            getDevices.data.temp
+          );
+          setSensorList([
+            TempSensorObj.displayState(),
+            humidSensorObj.displayState(),
+            lightSensorObj.displayState(),
+          ]);
+        } catch (e) {
+          console.log(e);
+        }
+      };
+
+      getStatusList();
+    }, []);
+
+
   return (
     <>
       <Button onClick={onOpen} size="sm" bgColor={"#3531F0"} color={"white"}>
@@ -68,7 +103,7 @@ const SelectSensor = ({ ast }: { ast: any }) => {
             </FilterSection>
             {/* Use a list of rooms fetched from the database. */}
             <div className="gap-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 mt-4">
-              {fakeSensorList.map((sensor, idx) => (
+              {sensorList.map((sensor, idx) => (
                 <SensorInfo
                   key={idx}
                   sensorInf={sensor}

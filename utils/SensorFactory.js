@@ -8,27 +8,20 @@ class SensorFactory {
 }
 
 class LightSensorFactory extends SensorFactory {
-    createDevice(id) {
-        let lightState // 1 means on, 0 means off
-        if (id[0] == "1") lightState = 1
-        else lightState = 0
-        return new DeviceLight(`Light ${id[1]}`, lightState)
+    createDevice(name, value) {
+        return new LightSensor(name, value)
     }
 }
 
 class HumidSensorFactory extends SensorFactory {
-    createDevice(id) {
-        let doorState
-        if (id[1] == "1") doorState = 1
-        else doorState = 0
-        return new DeviceDoor("Door", state)
+    createDevice(name, value) {
+        return new HumidSensor(name, value)
     }
 }
 
 class TemperatureSensorFactory extends SensorFactory {
-    createDevice(id) {
-        let fanState = Math.floor(parseInt(id.slice(1)) / 25)
-        return new DeviceFan(`Fan`, fanState)
+    createDevice(name, value) {
+        return new TempSensor(name, value)
     }
 }
 
@@ -43,61 +36,53 @@ class Sensor {
 }
 
 class LightSensor extends Sensor {
-    constructor(name, currState) {
+    constructor(name, value) {
+        super()
         this.name = name
-        this.state = currState
-    }
-
-    setDeviceState(state) {
-        let onOrOff = state == 0 ? "2" : "1"
-        return onOrOff + this.name.slice(this.name.length - 1)
+        this.value = value
     }
 
     displayState() {
         return {
-            type: "light",
+            type: "sun",
             name: this.name,
-            state: this.state
+            value: this.value
         }
     }
 }
 
 class HumidSensor extends Sensor {
-    constructor(name, currState) {
+    constructor(name, value) {
+        super()
         this.name = name
-        this.state = currState
-    }
-
-    setDeviceState(state) {
-        return "3" + this.state
+        this.value = value
     }
 
     displayState() {
         return {
-            type: "door",
+            type: "humid",
             name: this.name,
-            state: this.state
+            value: this.value
         }
     }
 }
 
 class TempSensor extends Sensor {
     constructor(name, currState) {
+        super()
         this.name = name
-        this.state = currState
-    }
-
-    setDeviceState(state) {
-        return "4" + String(parseInt(25 * this.state))
+        this.value = currState
     }
 
     displayState() {
         return {
-            type: "fan",
+            type: "temp",
             name: this.name,
-            state: this.state
+            value: this.value
         }
     }
 }
+
+export {HumidSensorFactory, TemperatureSensorFactory, LightSensorFactory}
 
 

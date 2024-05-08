@@ -22,12 +22,12 @@ const DisplayBinary = ({
   setRemoveChild: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const [cmpType, setCmpType] = useState<cmpType>("Choosing")
-
+  console.log("current operator ", operator)
   let nextAst = null;
   if (pos == "left")
-    nextAst = ast.addSubTree(new BinaryOp(operator, null, null), ast.rhs)
+    nextAst = ast.addSubTree(new BinaryOp(operator, null, null), ast.rhs, "left")
   else if (pos == "right") 
-    nextAst = ast.addSubTree(ast.lhs, new BinaryOp(operator, null, null))
+    nextAst = ast.addSubTree(ast.lhs, new BinaryOp(operator, null, null), "right")
   else 
     nextAst = ast.addSubTree(new BinaryOp(operator, null, null))
 

@@ -44,7 +44,8 @@ const Profile = () => {
               }
             />
           </FormControl>
-          <div className="col-span-full flex justify-end">
+          <div className="col-span-full flex justify-end gap-4">
+            <Button colorScheme="red" onClick={() => {console.log(profile)}}>Logout</Button>
             <Button colorScheme="messenger" onClick={() => {console.log(profile)}}>Update</Button>
           </div>
         </form>

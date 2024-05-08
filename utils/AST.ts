@@ -45,10 +45,13 @@ class BinaryOp extends Exp {
         visitAST.visit(this)
     }
 
-    public addSubTree(leftTree: any, rightTree: any) {
+    public addSubTree(leftTree: any, rightTree: any, insertPos: string) {
+        
         this.lhs = leftTree
         this.rhs = rightTree
-        return this.lhs ? this.lhs : this.rhs
+        if (insertPos == "left") return this.lhs 
+        else if (insertPos == "right") return this.rhs
+        // return this.lhs ? this.lhs : this.rhs
     }
 
 
@@ -84,12 +87,10 @@ class NotOp extends Exp {
 class Sensor extends Exp {
     sensorName: string
     sensorType: string 
-    sensorLoc: string 
-    constructor(name: string, type: string, location: string) {
+    constructor(name: string, type: string) {
         super()
         this.sensorName = name;
-        this.sensorType = type;
-        this.sensorLoc = location;
+        this.sensorType = type;;
     }
 
     public accept(visitAST: ASTGen) {
@@ -122,12 +123,10 @@ class Threshold extends Exp {
 class DeviceNode {
     name: string;
     type: string;
-    location: string;
     state: number;
-    constructor(name: string, deviceType: string, loc: string, state: number) {
+    constructor(name: string, deviceType: string, state: number) {
         this.name = name
         this.type = deviceType
-        this.location = loc 
         this.state = state
     }
 

@@ -27,7 +27,6 @@ const AddAction = () => {
       new DeviceNode(
         ele.device.name,
         ele.device.type,
-        ele.device.location,
         ele.state ? ele.state : 0
       )
   );
@@ -54,11 +53,10 @@ const AddAction = () => {
           colorScheme="blue"
           size="sm"
           onClick={() => {
-            console.log("CLick");
             setActionList(oldLst => {
               const newArr = oldLst.map(dev => ({ ...dev }));
               newArr.push({
-                device: { name: "", type: "", location: "" },
+                device: { name: "", type: "" },
                 state: null,
               });
               return newArr;

@@ -12,7 +12,6 @@ class LightFactory extends DeviceFactory {
         super()
     }
     createDevice(id) {
-        console.log("Light id ", id)
         let lightState // 1 means on, 0 means off
         if (id[0] == "1") lightState = 1
         else lightState = 0

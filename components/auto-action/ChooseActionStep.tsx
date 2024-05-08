@@ -31,10 +31,6 @@ const ChooseAction = ({
         <p>
           <span className="font-semibold">Device Type:</span> {deviceInf.type}
         </p>
-        <p>
-          <span className="font-semibold">Device Location:</span>{" "}
-          {deviceInf.location}
-        </p>
       </div>
       <p className="my-4">What you want to do with this device</p>
       <Select
@@ -44,19 +40,19 @@ const ChooseAction = ({
           handleAction(old => ({ ...old, state: Number(e.target.value) }));
         }}
       >
-        {deviceInf.type == "Light" && (
+        {deviceInf.type == "light" && (
           <>
             <option value={0}>Turn Off</option>
             <option value={1}>Turn On</option>
           </>
         )}
-        {deviceInf.type == "Door" && (
+        {deviceInf.type == "door" && (
           <>
             <option value={0}>Lock</option>
             <option value={1}>Unlock</option>
           </>
         )}
-        {deviceInf.type == "Fan" && (
+        {deviceInf.type == "fan" && (
           <>
             <option value={0}>Turn Off</option>
             <option value={1}>Speed 1</option>

@@ -21,10 +21,6 @@ const DeviceInfo = ({
       <p>
         <span className="font-semibold">Device Type:</span> {deviceInf.type}
       </p>
-      <p>
-        <span className="font-semibold">Device Location:</span>{" "}
-        {deviceInf.location}
-      </p>
     </div>
   );
 };
