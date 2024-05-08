@@ -1,5 +1,5 @@
 import React from "react";
-import { fe_url } from "@/config";
+import { fe_url } from "@/web_config";
 import { NavItemType } from "../../Type";
 import { useRouter } from "next/navigation";
 

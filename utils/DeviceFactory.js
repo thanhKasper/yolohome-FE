@@ -8,20 +8,37 @@ class DeviceFactory {
 }
 
 class LightFactory extends DeviceFactory {
-    createDevice(name, loc, state) {
-        return new DeviceLight(name, loc, state)
+    constructor() {
+        super()
+    }
+    createDevice(id) {
+        console.log("Light id ", id)
+        let lightState // 1 means on, 0 means off
+        if (id[0] == "1") lightState = 1
+        else lightState = 0
+        return new DeviceLight(`Light ${id[1]}`, lightState)
     }
 }
 
 class DoorFactory extends DeviceFactory {
-    createDevice(name, loc, state) {
-        return new DeviceDoor(name, loc, state)
+    constructor() {
+        super()
+    }
+    createDevice(id) {
+        let doorState
+        if (id[1] == "1") doorState = 1
+        else doorState = 0
+        return new DeviceDoor("Door", doorState)
     }
 }
 
 class FanFactory extends DeviceFactory {
-    createDevice(name, loc, state) {
-        return new DeviceFan(name, loc, state)
+    constructor() {
+        super()
+    }
+    createDevice(id) {
+        let fanState = Math.floor(parseInt(id.slice(1)) / 25)
+        return new DeviceFan(`Fan`, fanState)
     }
 }
 
@@ -36,38 +53,64 @@ class Device {
 }
 
 class DeviceLight extends Device {
-    constructor(name, location, currState) {
+    constructor(name, currState) {
+        super()
         this.name = name
-        this.location = location 
         this.state = currState
     }
 
     setDeviceState(state) {
-        this.state = state
+        let onOrOff = state == 0 ? "2" : "1"
+        return onOrOff + this.name.slice(this.name.length-1)
     }
 
     displayState() {
         return {
+            type: "light",
             name: this.name,
-            type: "Light",
-            location: this.location
+            state: this.state
+        }
+    }
+}
+
+class DeviceDoor extends Device {
+    constructor(name, currState) {
+        super()
+        this.name = name
+        this.state = currState
+    }
+
+    setDeviceState(state) {
+        return "3" + this.state
+    }
+
+    displayState() {
+        return {
+            type: "door",
+            name: this.name,
+            state: this.state
         }
     }
 }
 
 class DeviceFan extends Device {
-    constructor(name, location, currState) {
+    constructor(name, currState) {
+        super()
         this.name = name
-        this.location = location
         this.state = currState
+    }
+
+    setDeviceState(state) {
+        return "4" + String(parseInt(25 * this.state))
+    }
+
+    displayState() {
+        return {
+            type: "fan",
+            name: this.name,
+            state: this.state
+        }
     }
 }
 
-class DeviceDoor extends Device {
-    constructor(name, location, currState) {
-        this.name = name
-        this.location = location
-        this.state = currState
-    }
-}
-
+export {LightFactory, DoorFactory, FanFactory}

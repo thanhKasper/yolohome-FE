@@ -13,13 +13,7 @@ import {
   Legend,
 } from "chart.js";
 import autocolors from "chartjs-plugin-autocolors";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select } from "@chakra-ui/react";
 
 Chart.register(
   CategoryScale,
@@ -44,25 +38,37 @@ const data = [
 
 const WaterChart = () => {
   return (
-    <div >
+    <div>
       <div className="flex gap-2 items-center">
-        <h2 className="font-semibold text-2xl">Water Consumption Over Time</h2>
-        <Select>
-          <SelectTrigger className="w-28 h-8">
-            <SelectValue placeholder="Time" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="day">By Day</SelectItem>
-            <SelectItem value="week">By Week</SelectItem>
-            <SelectItem value="month">By Month</SelectItem>
-            <SelectItem value="year">By Year</SelectItem>
-          </SelectContent>
+        <h2 className="font-semibold text-xl">Water Consumption Over Time</h2>
+        <Select
+          placeholder="Time"
+          defaultValue={"day"}
+          width={"120px"}
+          size={"sm"}
+          bgColor={"white"}
+        >
+          <option value="day">By day</option>
+          <option value="week">By week</option>
+          <option value="month">By month</option>
+          <option value="year">By year</option>
+        </Select>
+        <Select
+          placeholder="Person"
+          size="sm"
+          width={"120px"}
+          bgColor={"white"}
+        >
+          <option value="day">Person 1</option>
+          <option value="week">Person 2</option>
+          <option value="month">Person 3</option>
+          <option value="year">Person 4</option>
         </Select>
       </div>
-      <div className={`relative h-80`}>
+      <div className={`relative h-80 mt-auto`}>
         <Bar
           options={{
-            maintainAspectRatio: false
+            maintainAspectRatio: false,
           }}
           datasetIdKey="waterchart"
           updateMode="resize"
@@ -72,6 +78,7 @@ const WaterChart = () => {
               {
                 label: "Acquisitions by year",
                 data: data.map(row => row.count),
+                backgroundColor: "#1814F3",
               },
             ],
           }}

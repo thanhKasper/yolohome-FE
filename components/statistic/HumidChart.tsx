@@ -45,7 +45,7 @@ const HumidChart = () => {
   return (
     <div>
       <div className="flex gap-2 items-center">
-        <h2 className="font-semibold text-2xl">Humid Chart Over Time</h2>
+        <h2 className="font-semibold text-xl">Humid Chart Over Time</h2>
         <Select>
           <SelectTrigger className="w-28 h-8">
             <SelectValue placeholder="Time" />
@@ -70,6 +70,8 @@ const HumidChart = () => {
               {
                 label: "Acquisitions by year",
                 data: data.map(row => row.count),
+                backgroundColor: "#718EBF",
+                borderColor: "#1814F3",
               },
             ],
           }}
