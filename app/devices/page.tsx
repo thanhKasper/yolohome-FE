@@ -44,6 +44,10 @@ const Devices = () => {
   };
 
   useEffect(() => {
+    getStatusList()
+  }, []);
+
+  useEffect(() => {
     const devicesInterval = setInterval(getStatusList, 3000);
     return () => clearInterval(devicesInterval)
   }, []);

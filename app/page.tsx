@@ -60,7 +60,7 @@ export default function Dashboard() {
     console.log("Set interval in /dashboard");
     try {
       const getDevices = await axios.get(`${be_url}/statusDevices`);
-      // console.log(getDevices.data)
+      console.log(getDevices.data)
       const light1Id = getDevices.data.light1;
       const light2Id = getDevices.data.light2;
       const fanId = getDevices.data.fan;

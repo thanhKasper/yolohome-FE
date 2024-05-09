@@ -16,10 +16,6 @@ const Profile = () => {
   return (
     <div className="mt-6 ">
       <div className="flex gap-20">
-        <Avatar className="w-28 h-28">
-          <AvatarImage src="/avatar img.jpg" />
-          <AvatarFallback>CN</AvatarFallback>
-        </Avatar>
         <form
           action=""
           className="grid grid-cols-1 gap-4 md:grid-cols-2 w-full"

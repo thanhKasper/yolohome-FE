@@ -18,34 +18,42 @@ import React, { useEffect, useState } from "react";
 const SensorsPage = () => {
   const [filterList, setFilterList] = useState<FilterType>({});
   const [sensorList, setSensorList] = useState<SensorInfoType[]>([]);
+
+  const getStatusList = async () => {
+    console.log("use effect in sensor page");
+    try {
+      const getDevices = await axios.get(`${be_url}/statusDevices`);
+
+      const humidSensorObj = new HumidSensorFactory().createDevice(
+        "Humid Sensor",
+        getDevices.data.humid
+      );
+      const lightSensorObj = new LightSensorFactory().createDevice(
+        "Light Sensor",
+        getDevices.data.uv
+      );
+      const TempSensorObj = new TemperatureSensorFactory().createDevice(
+        "Temperature Sensor",
+        getDevices.data.temp
+      );
+      setSensorList([
+        TempSensorObj.displayState(),
+        humidSensorObj.displayState(),
+        lightSensorObj.displayState(),
+      ]);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   useEffect(() => {
-    const getStatusList = async () => {
-      try {
-        const getDevices = await axios.get(`${be_url}/statusDevices`);
-
-        const humidSensorObj = new HumidSensorFactory().createDevice(
-          "Humid Sensor",
-          getDevices.data.humid
-        );
-        const lightSensorObj = new LightSensorFactory().createDevice(
-          "Light Sensor",
-          getDevices.data.uv
-        );
-        const TempSensorObj = new TemperatureSensorFactory().createDevice(
-          "Temperature Sensor",
-          getDevices.data.temp
-        );
-        setSensorList([
-          TempSensorObj.displayState(),
-          humidSensorObj.displayState(),
-          lightSensorObj.displayState(),
-        ]);
-      } catch (e) {
-        console.log(e);
-      }
-    };
-
     getStatusList();
+  }, []);
+
+  useEffect(() => {
+    const sensorInterval = setInterval(getStatusList, 2000);
+
+    return () => clearInterval(sensorInterval);
   }, []);
   return (
     <>

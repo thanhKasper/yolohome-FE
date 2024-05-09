@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import axios from "axios";
+import { be_url } from "@/web_config";
 
 ChartJS.register(
   CategoryScale,
@@ -42,6 +44,29 @@ const data = [
 ];
 
 const HumidChart = () => {
+  const [humidData, setHumidData] = useState<{time: string[], humidity: number[]}>()
+  const getHumidData = async() => {
+    try {
+      const fetchData = await axios.get(`${be_url}/stat/humid`)
+      console.log(fetchData.data)
+      const rawData = fetchData.data
+      const timeList = []
+      const dataList = []
+      for (let data of rawData) {
+        timeList.push(data.time)
+        dataList.push(data.humidity)
+      }
+      setHumidData({time: timeList, humidity: dataList})
+    } catch (e) {
+      console.log(e)
+    }
+  }
+  useEffect(() => {
+    getHumidData()
+  }, [])
+
+  console.log(humidData)
+
   return (
     <div>
       <div className="flex gap-2 items-center">
@@ -65,11 +90,11 @@ const HumidChart = () => {
             maintainAspectRatio: false,
           }}
           data={{
-            labels: data.map(row => row.year),
+            labels: humidData?.time,
             datasets: [
               {
-                label: "Acquisitions by year",
-                data: data.map(row => row.count),
+                label: "Humidity over time",
+                data: humidData?.humidity,
                 backgroundColor: "#718EBF",
                 borderColor: "#1814F3",
               },
