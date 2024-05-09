@@ -23,7 +23,15 @@ import {
 import axios from "axios";
 import { be_url } from "@/web_config";
 
-
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 const data = [
   { year: 2010, count: 10 },
@@ -35,44 +43,35 @@ const data = [
   { year: 2016, count: 28 },
 ];
 
-const HumidChart = () => {
-  ChartJS.register(
-    CategoryScale,
-    LinearScale,
-    PointElement,
-    LineElement,
-    Title,
-    Tooltip,
-    Legend
-  );
-
-  const [humidData, setHumidData] = useState<{time: string[], humidity: number[]}>()
-  const getHumidData = async() => {
-    try {
-      const fetchData = await axios.get(`${be_url}/stat/humid`)
-      // console.log(fetchData.data)
-      const rawData = fetchData.data
-      const timeList = []
-      const dataList = []
-      for (let data of rawData) {
-        timeList.push(data.time)
-        dataList.push(data.humidity)
+const LightChart = () => {
+    const [lightData, setLightData] = useState<{
+      time: string[];
+      data: number[];
+    }>();
+    const getLightData = async () => {
+      try {
+        const fetchData = await axios.get(`${be_url}/stat/uv`);
+        // console.log("Light", fetchData.data);
+        const rawData = fetchData.data;
+        const timeList = [];
+        const dataList = [];
+        for (let data of rawData) {
+          timeList.push(data.time);
+          dataList.push(data.light);
+        }
+        setLightData({ time: timeList, data: dataList });
+      } catch (e) {
+        console.log(e);
       }
-      setHumidData({time: timeList, humidity: dataList})
-    } catch (e) {
-      console.log(e)
-    }
-  }
-  useEffect(() => {
-    getHumidData()
-  }, [])
+    };
 
-  // console.log(humidData)
-
+    useEffect(() => {
+      getLightData();
+    }, []);
   return (
     <div>
       <div className="flex gap-2 items-center">
-        <h2 className="font-semibold text-xl">Humid Chart Over Time</h2>
+        <h2 className="font-semibold text-xl">Light Chart Over Time</h2>
         {/* <Select>
           <SelectTrigger className="w-28 h-8">
             <SelectValue placeholder="Time" />
@@ -88,16 +87,15 @@ const HumidChart = () => {
       <div className={`relative h-80`}>
         <Line
           datasetIdKey="humidchart"
-          updateMode="show"
           options={{
             maintainAspectRatio: false,
           }}
           data={{
-            labels: humidData?.time,
+            labels: lightData?.time,
             datasets: [
               {
-                label: "Humidity over time",
-                data: humidData?.humidity,
+                label: "Light",
+                data: lightData?.data,
                 backgroundColor: "#718EBF",
                 borderColor: "#1814F3",
               },
@@ -109,4 +107,4 @@ const HumidChart = () => {
   );
 };
 
-export default HumidChart;
+export default LightChart;

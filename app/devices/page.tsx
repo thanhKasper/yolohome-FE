@@ -16,7 +16,7 @@ const Devices = () => {
   const [deviceList, setDeviceList] = useState<any>();
 
   const getStatusList = async () => {
-    console.log("Set interval in /devics")
+    console.log("Set interval in /devics");
     try {
       const getDevices = await axios.get(`${be_url}/statusDevices`);
       // console.log("In side Devices page ", getDevices.data);
@@ -44,12 +44,12 @@ const Devices = () => {
   };
 
   useEffect(() => {
-    getStatusList()
+    getStatusList();
   }, []);
 
   useEffect(() => {
-    const devicesInterval = setInterval(getStatusList, 3000);
-    return () => clearInterval(devicesInterval)
+    const devicesInterval = setInterval(getStatusList, 2000);
+    return () => clearInterval(devicesInterval);
   }, []);
 
   // console.log(deviceList);

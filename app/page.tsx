@@ -13,48 +13,6 @@ import { SensorInfoType } from "@/Type";
 export default function Dashboard() {
   const [deviceList, setDeviceList] = useState([])
   const [sensorList, setSensorList] = useState<SensorInfoType[]>([])
-  // const [state, setState] = useState<number>(0);
-  // useEffect(() => {
-  //   const getStatusList = async () => {
-  //     // console.log("Do again")
-  //     try {
-  //       const getDevices= await axios.get(`${be_url}/statusDevices`);
-  //       // console.log(getDevices.data)
-  //       const light1Id = getDevices.data.light1
-  //       const light2Id = getDevices.data.light2
-  //       const fanId = getDevices.data.fan
-  //       const doorId = getDevices.data.door
-  //       const lightFac = new LightFactory()
-  //       const light1Obj = lightFac.createDevice(String(light1Id))
-  //       const light2Obj = lightFac.createDevice(String(light2Id))
-
-  //       const fanFac = new FanFactory()
-  //       const fanObj = fanFac.createDevice(String(fanId))
-
-  //       const doorFac = new DoorFactory()
-  //       const doorObj = doorFac.createDevice(String(doorId))
-  //       setDeviceList([
-  //         light1Obj.displayState(),
-  //         light2Obj.displayState(),
-  //         fanObj.displayState(),
-  //         doorObj.displayState(),
-  //       ]); 
-
-
-
-  //       const humidSensorObj = new HumidSensorFactory().createDevice("Humid Sensor", getDevices.data.humid)
-  //       const lightSensorObj = new LightSensorFactory().createDevice("Light Sensor", getDevices.data.uv)
-  //       const TempSensorObj = new TemperatureSensorFactory().createDevice("Temperature Sensor", getDevices.data.temp)
-  //       setSensorList([TempSensorObj.displayState(), humidSensorObj.displayState(), lightSensorObj.displayState()])
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   };
-  //   // setInterval(() => {
-  //   //   getStatusList();
-  //   // }, 10);
-  //   getStatusList()
-  // }, []);
 
   const getStatusList = async () => {
     console.log("Set interval in /dashboard");
@@ -146,7 +104,7 @@ export default function Dashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mt-8">
         <WaterChart />
-        <PersonWaterChart />
+        {/* <PersonWaterChart /> */}
       </div>
     </>
   );

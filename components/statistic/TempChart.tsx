@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Line } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -20,6 +20,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import axios from "axios";
+import { be_url } from "@/web_config";
 
 ChartJS.register(
   CategoryScale,
@@ -42,11 +44,36 @@ const data = [
 ];
 
 const TempChart = () => {
+  const [tempData, setTempData] = useState<{
+    time: string[];
+    data: number[];
+  }>();
+  const getTempData = async () => {
+    try {
+      const fetchData = await axios.get(`${be_url}/stat/temp`);
+      // console.log("Temp", fetchData.data);
+      const rawData = fetchData.data;
+      const timeList = [];
+      const dataList = [];
+      for (let data of rawData) {
+        timeList.push(data.time);
+        dataList.push(data.temperature);
+      }
+      setTempData({ time: timeList, data: dataList });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  useEffect(() => {
+    getTempData();
+  }, []);
+
   return (
     <div>
       <div className="flex gap-2 items-center">
         <h2 className="font-semibold text-xl">Temperature Chart Over Time</h2>
-        <Select>
+        {/* <Select>
           <SelectTrigger className="w-28 h-8">
             <SelectValue placeholder="Time" />
           </SelectTrigger>
@@ -56,7 +83,7 @@ const TempChart = () => {
             <SelectItem value="month">By Month</SelectItem>
             <SelectItem value="year">By Year</SelectItem>
           </SelectContent>
-        </Select>
+        </Select> */}
       </div>
       <div className={`relative h-80`}>
         <Line
@@ -65,11 +92,11 @@ const TempChart = () => {
             maintainAspectRatio: false,
           }}
           data={{
-            labels: data.map(row => row.year),
+            labels: tempData?.time,
             datasets: [
               {
-                label: "Acquisitions by year",
-                data: data.map(row => row.count),
+                label: "Temperature",
+                data: tempData?.data,
                 backgroundColor: "#718EBF",
                 borderColor: "#1814F3",
               },
